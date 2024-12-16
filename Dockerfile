@@ -1,8 +1,8 @@
 # Sử dụng image cơ bản từ Ubuntu
 FROM ubuntu:latest
 
-# Cập nhật các gói và cài đặt OpenSSH Server
-RUN apt-get update && apt-get install -y openssh-server
+# Cập nhật các gói và cài đặt OpenSSH Server và iptables
+RUN apt-get update && apt-get install -y openssh-server iptables
 
 # Tạo thư mục cho SSH daemon
 RUN mkdir /var/run/sshd
@@ -13,8 +13,11 @@ RUN echo 'root:quangtx2002' | chpasswd
 # Cho phép đăng nhập bằng mật khẩu
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# Mở cổng 22 cho SSH
-EXPOSE 22
+# Thay đổi cổng SSH sang 8080
+RUN sed -i 's/#Port 22/Port 8080/' /etc/ssh/sshd_config
+
+# Mở cổng 8080 cho SSH
+EXPOSE 8080
 
 # Khởi động dịch vụ SSH
 CMD ["/usr/sbin/sshd", "-D"]
