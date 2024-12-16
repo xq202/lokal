@@ -18,8 +18,9 @@ RUN sed -i 's/#Port 22/Port 8080/' /etc/ssh/sshd_config
 
 # Mở cổng 8080 cho SSH
 EXPOSE 8080
+EXPOSE 8000
 
 # Khởi động dịch vụ SSH
 CMD ["/usr/sbin/sshd", "-D"]
 
-CMD ["bash", "-c", "php -S 0.0.0.0:8080"]
+CMD ["bash", "-c", "php -S 0.0.0.0:8000"]
