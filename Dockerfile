@@ -2,7 +2,7 @@
 FROM ubuntu:latest
 
 # Cập nhật các gói và cài đặt OpenSSH Server và iptables
-RUN apt-get update && apt-get install -y openssh-server iptables
+RUN apt-get update && apt-get install -y openssh-server iptables php
 
 # Tạo thư mục cho SSH daemon
 RUN mkdir /var/run/sshd
@@ -21,3 +21,5 @@ EXPOSE 8080
 
 # Khởi động dịch vụ SSH
 CMD ["/usr/sbin/sshd", "-D"]
+
+CMD ["bash", "-c", "php -S 0.0.0.0:8080"]
