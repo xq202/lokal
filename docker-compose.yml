@@ -1,0 +1,18 @@
+services:
+  lokal-server:
+    network_mode: "host"
+    image: citatoji/lokal-server:latest
+    restart: unless-stopped
+    environment:
+      - TUNNEL_SERVER_BIND_HOST=${TUNNEL_SERVER_BIND_HOST}
+      - TUNNEL_SERVER_BIND_PORT=${TUNNEL_SERVER_BIND_PORT}
+      - TUNNEL_SERVER_JWT_SECRET=${TUNNEL_SERVER_JWT_SECRET}
+      - TUNNEL_SERVER_ENCRYPTION_KEY=${TUNNEL_SERVER_ENCRYPTION_KEY}
+      - VHOST_HTTP_HOST=${VHOST_HTTP_HOST}
+      - VHOST_HTTP_PORT=${VHOST_HTTP_PORT}
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 60 --cleanup --include-stopped --cleanup --revive-stopped
+    restart: unless-stopped
